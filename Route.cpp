@@ -1,8 +1,11 @@
 #include "Route.h"
 #include <iostream> 
+#include <stdexcept>
 void Route::setNumber(int number){
     if (number > 0){ 
         routeNumber = number;
+    } else{
+        throw invalid_argument("Возраст не может быть отрицательным");
     }
 }
 int Route::getNumber() const {
@@ -57,8 +60,15 @@ ostream& operator<<(ostream& out, const Route& route){
         << route.routeNumber;
     return out;
 }
-//перегрузка ввода
+
 istream& operator>>(istream& in, Route& route){
-    in >> route.startPoint >> route.endPoint >> route.routeNumber;
+    int number;
+
+    in >> route.startPoint >> route.endPoint >> number;
+    
+    if(in){
+        route.setNumber(number);
+    }
+    
     return in;
 }
