@@ -1,9 +1,10 @@
-
 #include <windows.h>
 #include <iostream>
 #include "Route.h"
-
-
+#include <fstream>
+#include <sstream>
+#include <cctype>
+#include <stdexcept>
 void sortRoutes(Route* routes, int size){
     // Сортировка по номеру маршрута
     for (int i = 0; i < size - 1; i++) {
@@ -15,11 +16,7 @@ void sortRoutes(Route* routes, int size){
             }
         }
     }
-    
-
 }
-
-
 int main() {
     SetConsoleCP(65001);
     SetConsoleOutputCP(65001);
@@ -189,7 +186,13 @@ int main() {
                     delete[] newRoutes;
                     break;
                 }
-
+                if (!cin) {
+                    cin.clear();
+                    cin.ignore(1000, '\n');
+                    cout << "Ошибка ввода маршрута!" << endl;
+                    delete[] newRoutes;
+                    break;
+                }
                 delete[] routes;
                 routes = newRoutes;
                 size++;
@@ -207,6 +210,37 @@ int main() {
                 break;
         }
     }
+    
+    
+    ifstream file("input.txt");
+
+    if (!file.is_open()) {
+        cout << "Ошибка открытия файла!" << endl;
+    } else {
+        string line;
+
+        while (getline(file, line)) {
+            stringstream ss(line);
+            string word;
+            bool found = false;
+
+            while (ss >> word) {
+                if (word.length() == 2 &&
+                    word[0] >= '1' && word[0] <= '9' &&
+                    word[1] >= '0' && word[1] <= '9') {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                cout << line << endl;
+            }
+        }
+
+        file.close();
+    }
+
 
     // Освобождение динамической памяти
     delete[] routes;

@@ -1,11 +1,13 @@
 #include "Route.h"
 #include <iostream> 
 #include <stdexcept>
+#include <string>
+using namespace std;
 void Route::setNumber(int number){
     if (number > 0){ 
         routeNumber = number;
     } else{
-        throw invalid_argument("Возраст не может быть отрицательным");
+        throw invalid_argument("Номер маршрута должен быть положительным");
     }
 }
 int Route::getNumber() const {
@@ -32,7 +34,7 @@ Route::Route(){
     startPoint = "неизвестно";
     endPoint = "Неизвестно";
     routeNumber = 0;
-    std::cout << "Вызван конструктор по умолчанию" << std::endl;
+    cout << "Конструктор по умолчанию: " << this << endl;
 }
 //второй конструктор с параметрами который 
 Route::Route(string start, string end, int number){
@@ -40,18 +42,18 @@ Route::Route(string start, string end, int number){
     endPoint = end;
     routeNumber = 0;
     setNumber(number);
-    std::cout << "Вызван конструктор с параметрами, в наше случае старт конец и номер" << std::endl;
+    cout << "Конструктор с параметрами: " << this << endl;
 }
 
 Route::Route(const Route& other){
     startPoint = other.startPoint;
     endPoint = other.endPoint;
     routeNumber = other.routeNumber;
-    std::cout << "вызван конструктор копирования" << std::endl;
+    cout << "Конструктор копирования: " << this << endl;
 }
 
-Route::~Route(){
-    std::cout << "Вызван деструктор роут" << std::endl;
+Route::~Route() {
+    cout << "Деструктор объекта по адресу " << this << endl;
 }
 //перегрузка вывода
 ostream& operator<<(ostream& out, const Route& route){
